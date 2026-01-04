@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Cyber Challenge</title>
+<style>
+body { font-family: Arial, sans-serif; background-color: #f5f5f5; color: #0B0B0B; text-align: center; }
+h2 { color: #C1121F; }
+#timer { font-size: 20px; color: #C1121F; margin-bottom: 20px; }
+textarea { width: 70%; height: 50px; margin-bottom: 15px; }
+button { padding: 10px 20px; font-size: 16px; background-color: #C1121F; color: #fff; border: none; cursor: pointer; }
+button:hover { background-color: #A00F1B; }
+</style>
+</head>
+<body>
+<h2>Cyber Challenge</h2>
+<div id="timer">30:00</div>
+
+<form method="post" id="quizForm">
+{% csrf_token %}
+{% for q in questions %}
+<p>{{ q.text }}</p>
+<textarea name="question_{{ q.id }}"></textarea>
+{% endfor %}
+<button type="submit">Envoyer</button>
+</form>
+
+<script>
+let t = 1800; // 30 minutes
+let timer = setInterval(() => {
+    let minutes = Math.floor(t/60).toString().padStart(2,'0');
+    let seconds = (t%60).toString().padStart(2,'0');
+    document.getElementById("timer").innerText = minutes + ":" + seconds;
+    t--;
+    if(t < 0) {
+        clearInterval(timer);
+        document.getElementById("quizForm").submit();
+    }
+}, 1000);
+</script>
+</body>
+</html>

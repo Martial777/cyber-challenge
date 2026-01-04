@@ -1,0 +1,21 @@
+<h2>Cyber Challenge</h2>
+<div id="timer">30:00</div>
+
+<form method="post" id="quizForm">
+{% csrf_token %}
+{% for q in questions %}
+<p>{{ q.text }}</p>
+<textarea name="question_{{ q.id }}"></textarea>
+{% endfor %}
+<button>Envoyer</button>
+</form>
+
+<script>
+let t = 1800;
+setInterval(() => {
+document.getElementById("timer").innerText =
+Math.floor(t/60)+":"+(t%60);
+t--;
+if(t<0) document.getElementById("quizForm").submit();
+},1000);
+</script>

@@ -1,8 +1,8 @@
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path("", views.index_view, name="index"),
-    path("quiz/", views.quiz_view, name="quiz"),
-    path("quiz", views.quiz_view),  # sans slash
+    path('admin/', admin.site.urls),
+    path('', include('quiz.urls')),
 ]
+

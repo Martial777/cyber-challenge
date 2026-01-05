@@ -1,89 +1,39 @@
 from quiz.models import Question
 
 QUESTIONS = [
-    (
-        "Tu es sur Kali. Tu veux vérifier si un fichier est lisible uniquement par son propriétaire. Quelle information cherches-tu et comment ?",
-        "ls,-l,permissions"
-    ),
-    (
-        "Un utilisateur se plaint qu’une commande fonctionne en root mais pas en user normal. Quelle piste vérifies-tu en premier ?",
-        "sudo,permissions,path"
-    ),
-    (
-        "Tu télécharges un script bash inconnu. Quelle est la première chose à faire avant de l’exécuter ?",
-        "cat,less,chmod"
-    ),
-    (
-        "Un fichier semble contenir du texte illisible. Quelle hypothèse fais-tu et que testes-tu ?",
-        "file,strings,encoding"
-    ),
-    (
-        "Tu suspectes qu’un mot de passe est caché dans un fichier texte. Quelle commande simple testes-tu ?",
-        "grep,cat,less"
-    ),
-    (
-        "Un service écoute sur un port inconnu. Comment identifies-tu ce service localement ?",
-        "netstat,ss,lsof"
-    ),
-    (
-        "Tu analyses une image PNG reçue dans un CTF. Quelle piste évidente testes-tu en premier ?",
-        "strings,steghide,exif"
-    ),
-    (
-        "Tu veux savoir si un fichier a été modifié récemment. Quelle information regardes-tu ?",
-        "ls,stat,time"
-    ),
-    (
-        "Un script ne s’exécute pas alors qu’il est correct. Quelle cause fréquente liée au système peux-tu vérifier ?",
-        "chmod,permissions,shebang"
-    ),
-    (
-        "Tu interceptes une chaîne encodée étrange. Quelle est la première vérification simple à faire ?",
-        "base64,decode,echo"
-    ),
-    (
-        "Un utilisateur est compromis. Quelle commande permet de voir ses dernières connexions ?",
-        "last,w,who"
-    ),
-    (
-        "Tu veux voir les processus lancés par un utilisateur précis. Quelle approche utilises-tu ?",
-        "ps,grep,user"
-    ),
-    (
-        "Tu dois comparer deux fichiers suspects rapidement. Quelle commande utilises-tu ?",
-        "diff,cmp"
-    ),
-    (
-        "Un fichier semble trop petit pour être normal. Quelle hypothèse fais-tu ?",
-        "hidden,steganography"
-    ),
-    (
-        "Un binaire ne se lance pas malgré les droits. Quelle cause système possible ?",
-        "architecture,ldd,dependencies"
-    ),
-    (
-        "Tu veux savoir si une machine est joignable avant un scan. Quelle commande simple ?",
-        "ping,icmp"
-    ),
-    (
-        "Tu analyses un log et vois beaucoup de tentatives échouées. Quelle attaque soupçonnes-tu ?",
-        "bruteforce,password"
-    ),
-    (
-        "Tu trouves un hash mais tu ignores l’algorithme. Quelle première étape ?",
-        "identify,hashid"
-    ),
-    (
-        "Un fichier zip est protégé par mot de passe. Quelle approche générale testes-tu ?",
-        "dictionary,bruteforce"
-    ),
-    (
-        "Tu veux vérifier si un script fait des actions réseau. Où regardes-tu ?",
-        "curl,wget,requests"
-    ),
+    {"text": "Que signifie le mot « cyber » dans le domaine informatique ?", "keywords": "informatique,securite,technologie"},
+    {"text": "À quoi sert principalement un mot de passe ?", "keywords": "securite,acces,protection"},
+    {"text": "Quel système d’exploitation est le plus utilisé sur les serveurs ?", "keywords": "linux,serveur"},
+    {"text": "Kali Linux est principalement utilisé pour quoi ?", "keywords": "securite,test,intrusion"},
+    {"text": "Que signifie le mot « hacker » à l’origine ?", "keywords": "passionne,programmation"},
+    {"text": "Quelle commande Linux permet d’afficher le contenu d’un dossier ?", "keywords": "ls,linux"},
+    {"text": "Quelle commande Linux permet de connaître le dossier courant ?", "keywords": "pwd,linux"},
+    {"text": "Que signifie le sigle IP en réseau ?", "keywords": "internet,protocole"},
+    {"text": "À quoi sert une adresse IP ?", "keywords": "identification,reseau"},
+    {"text": "Qu’est-ce qu’un réseau informatique ?", "keywords": "ordinateurs,connexion"},
+    {"text": "Qu’appelle-t-on une attaque par phishing ?", "keywords": "fraude,email"},
+    {"text": "Quel est le but principal d’un antivirus ?", "keywords": "protection,malware"},
+    {"text": "Que signifie le terme « malware » ?", "keywords": "logiciel,malveillant"},
+    {"text": "Qu’est-ce qu’un pare-feu (firewall) ?", "keywords": "protection,reseau"},
+    {"text": "Pourquoi utilise-t-on HTTPS au lieu de HTTP ?", "keywords": "securite,cryptage"},
+    {"text": "À quoi sert la commande ping ?", "keywords": "reseau,test"},
+    {"text": "Qu’est-ce qu’un mot de passe fort ?", "keywords": "long,complexe"},
+    {"text": "Quelle est la différence entre Internet et le Wi-Fi ?", "keywords": "reseau,connexion"},
+    {"text": "Citer un type d’attaque informatique connu.", "keywords": "attaque,cyber"},
+    {"text": "Pourquoi la cybersécurité est-elle importante aujourd’hui ?", "keywords": "protection,donnees"},
 ]
 
-def run():
-    for q, k in QUESTIONS:
-        Question.objects.create(text=q, keywords=k)
-    print("Questions insérées")
+added = 0
+skipped = 0
+
+for q in QUESTIONS:
+    obj, created = Question.objects.get_or_create(
+        text=q["text"],
+        defaults={"keywords": q["keywords"]}
+    )
+    if created:
+        added += 1
+    else:
+        skipped += 1
+
+print(f"✔ Import terminé : {added} ajoutées / {skipped} déjà existantes")

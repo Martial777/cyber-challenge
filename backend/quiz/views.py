@@ -1,12 +1,13 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
-def index_view(request):
-    return HttpResponse("Bienvenue sur la page d'accueil du quiz")
-    # Ou si vous avez un template :
-    # return render(request, 'quiz/index.html')
+from .models import Question
 
 def quiz_view(request):
-    return HttpResponse("Page du quiz - Cyber Challenge")
-    # Ou si vous avez un template :
-    # return render(request, 'quiz/quiz.html')
+    questions = Question.objects.all()
+    return render(request, 'quiz.html', {'questions': questions})
+
+def done_view(request):
+    return render(request, 'done.html', {'score': 0})
+
+def locked_view(request):
+    return render(request, 'locked.html')
+

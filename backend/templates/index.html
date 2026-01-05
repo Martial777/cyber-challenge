@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Petit Challenge Cyber Débutant</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f9f9f9; }
+        button { padding: 10px 20px; font-size: 16px; background-color: #C1121F; color: #fff; border: none; cursor: pointer; }
+        button:hover { background-color: #A00F1B; }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue au Petit Challenge Cyber Débutant</h1>
+    <p>Cliquez sur le bouton ci-dessous pour commencer le quiz :</p>
+    <a href="{% url 'quiz:quiz' %}"><button>Commencer le quiz</button></a>
+</body>
+</html>
